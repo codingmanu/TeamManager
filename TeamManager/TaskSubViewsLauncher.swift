@@ -11,8 +11,9 @@ import UIKit
 class TaskSubViewsLauncher: NSObject {
     
     let blackView = UIView()
-    let dateView = ViewPicker()
+    let dateView = DatePicker()
     let userView = UserPicker()
+    var date: Date? = nil
     
     var popUpView = UIView()
     
@@ -29,7 +30,7 @@ class TaskSubViewsLauncher: NSObject {
     }
     
     
-    func showWindow(view: UIView) {
+    func showWindow(view: UIView){
         
         popUpView = view
         
@@ -67,13 +68,23 @@ class TaskSubViewsLauncher: NSObject {
             self.blackView.alpha = 0
             self.popUpView.alpha = 0
             
-            self.popUpView.frame = CGRect(x: self.popUpView.frame.width, y: self.popUpView.frame.height, width: self.popUpView.frame.width, height: self.popUpView.frame.height / 2)
+            self.popUpView.frame = CGRect(x: 0, y: self.popUpView.frame.height*2, width: self.popUpView.frame.width, height: self.popUpView.frame.height)
+            
+            if self.popUpView.isKind(of: DatePicker.self){
+                if let view = self.popUpView as? DatePicker{
+                    if view.returnDate() != nil {
+                        self.date = view.returnDate()
+                        let nc = NotificationCenter.default
+                        nc.post(name: Notification.Name("taskDateSelected"), object: self.date)
+                    }
+                }
+            }
         }
     }
     
 }
 
-class ViewPicker: UIView{
+class DatePicker: UIView{
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -84,18 +95,18 @@ class ViewPicker: UIView{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         label.text = "Select Due Date:"
         label.center = CGPoint(x: 120, y: 30)
         self.addSubview(label)
         
-        datePicker.timeZone = NSTimeZone.local
         datePicker.center = CGPoint(x: 200, y: 180)
-        //datePicker.date = Date.init(timeIntervalSinceNow: 0)
         self.addSubview(datePicker)
     }
     
-    
+    func returnDate() -> Date?{
+        return datePicker.date
+    }
     
 }
 

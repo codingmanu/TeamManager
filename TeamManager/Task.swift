@@ -12,9 +12,8 @@ class Task {
     
     var _name: String!
     var _type: taskType
-
-    //private var createdBy: String!
-    //private var createdOn: Date
+    var createdBy: String?
+    var createdOn: Date?
     
     init(name: String, type: taskType){
         self._name = name
