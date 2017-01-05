@@ -27,6 +27,10 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        collection.reloadData()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tasks.count
     }
