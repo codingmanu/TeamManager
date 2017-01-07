@@ -14,7 +14,8 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
     @IBOutlet weak var collection: UICollectionView!
     
     var user: FIRUser! = nil
-    var tasks:[Task] = [Task]()
+    var tasks = Dictionary<String, Task>()
+    var taskArray = [Task]()
     
     override func viewDidLoad() {
         
@@ -23,26 +24,21 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
         collection.delegate = self
         collection.dataSource = self
         
-        if user != nil {
-            print("Current user: \(user.email)")
-        }else{
-            print("No users logged in")
-        }
-        
         downloadInfo()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        downloadInfo()
         collection.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tasks.count
+        return taskArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TaskCell", for: indexPath) as? TaskCell{
-            let task = tasks[indexPath.row]
+            let task = taskArray[indexPath.row]
             cell.configureCell(task)
             return cell
         }else{
@@ -62,23 +58,22 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
         alert.addAction(UIAlertAction(title: "Mark as done", style: UIAlertActionStyle.default, handler: { action in
             
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
-            
-        }))
-
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+        
         alert.addAction(UIAlertAction(title: "Delete task", style: UIAlertActionStyle.destructive, handler: { action in
-            self.deleteTask(number: indexPath.row)
-            self.tasks.remove(at: indexPath.row)
+            self.tasks.removeValue(forKey: self.taskArray[indexPath.row]._taskId)
+            self.deleteTask(id: self.taskArray[indexPath.row]._taskId)
         }))
         
         // show the alert
         self.present(alert, animated: true, completion: nil)
     }
     
-    func deleteTask(number: Int){
+    func deleteTask(id: String){
         var ref: FIRDatabaseReference!
         
-        ref = FIRDatabase.database().reference(withPath: "tasks/\(number)")
+        
+        ref = FIRDatabase.database().reference(withPath: "tasks/\(id)")
         ref.removeValue()
         
     }
@@ -90,15 +85,15 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         ref.observe(.value, with: { snapshot in
             for child in snapshot.children {
-                let task = Task.init(id: "", name: "", type: .userTask)
-                if let a = child as? FIRDataSnapshot{
-                    if let taskId = a.childSnapshot(forPath: "taskId").value as? String{
-                        task._taskId = taskId
-                    }
-                    if let title = a.childSnapshot(forPath: "title").value as? String{
+                let task = Task.init(id: "", name: "", type: .userTask, creator: "")
+                
+                if let childTask = child as? FIRDataSnapshot{
+                    task._taskId = childTask.key
+                    
+                    if let title = childTask.childSnapshot(forPath: "title").value as? String{
                         task._name = title
                     }
-                    if let type = a.childSnapshot(forPath: "taskType").value as? String{
+                    if let type = childTask.childSnapshot(forPath: "taskType").value as? String{
                         if type == "userTask"{
                             task._type = .userTask
                         }else{
@@ -106,13 +101,31 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
                         }
                     }
                     
+                    if let creator = childTask.childSnapshot(forPath: "creator").value as? String{
+                        task.createdBy = creator
+                    }
+                    
                 }
-                self.tasks.append(task)
-                self.collection.reloadData()
+                
+                self.initTaskCollection(task: task)
             }
         })
-
         
+        
+    }
+    
+    func initTaskCollection(task: Task) {
+        
+        self.taskArray.removeAll()
+        self.tasks[task._taskId] = task
+        
+        let tasksArray = tasks.sorted{ $0.key > $1.key }
+        
+        for task in tasksArray {
+            self.taskArray.append(task.value)
+        }
+        
+        self.collection.reloadData()
     }
     
 }

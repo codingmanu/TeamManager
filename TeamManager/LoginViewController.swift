@@ -21,11 +21,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         /////////////////////////////////////////////////////////////////
-        do{
-            try FIRAuth.auth()?.signOut()
-        }catch{
-            handleError(error: error)
-        }
+        // Sign out every time the app is launched
+        /////////////////////////////////////////////////////////////////
+        //do{
+        //    try FIRAuth.auth()?.signOut()
+        //}catch{
+        //    handleError(error: error)
+        //}
         /////////////////////////////////////////////////////////////////
         
         loginView.layer.cornerRadius = 5.0

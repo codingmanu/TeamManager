@@ -19,7 +19,7 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var taskTextTF: UITextField!
     
     let taskSubViewsLauncher = TaskSubViewsLauncher()
-    var task: Task = Task(id: "", name: "", type: taskType.userTask)
+    var task: Task = Task(id: "", name: "", type: taskType.userTask, creator: "")
     
     @IBAction func addDateBtnTapped(_ sender: Any) {
         hideKeyboard()
@@ -28,8 +28,8 @@ class AddTaskViewController: UIViewController {
             
             NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: Notification.Name("taskDateSelected"), object: taskSubViewsLauncher.date)
         }else{
-            //We remote the date from the task object and the label
-            task.createdOn = nil
+            //We remove the date from the task object and the label
+            task.dueDate = nil
             dateLbl.text = ""
             addDateBtn.setTitle("Add Date", for: UIControlState.normal)
             
@@ -47,10 +47,6 @@ class AddTaskViewController: UIViewController {
             if taskTypeSelector.selectedSegmentIndex == 1 { task._type = .teamTask }
             
             performSegue(withIdentifier: "taskAdded", sender: nil)
-            
-            //print(task._name)
-            //print(task._type)
-            //print(task.createdOn?.description)
         }
         
     }
@@ -72,14 +68,14 @@ class AddTaskViewController: UIViewController {
     }
     
     func updateUI(){
-        self.task.createdOn = taskSubViewsLauncher.date
+        self.task.dueDate = taskSubViewsLauncher.date
         let myFormatter = DateFormatter()
-        myFormatter.dateFormat = "yyyy/MM/dd hh:mm z"
+        myFormatter.dateFormat = "yyyy/MM/dd"
         
-        if self.task.createdOn != nil{
-            myFormatter.date(from: (self.task.createdOn!.description))
+        if self.task.dueDate != nil{
+            myFormatter.date(from: (self.task.dueDate!.description))
             
-            let formattedDate = myFormatter.string(from: (self.task.createdOn)!)
+            let formattedDate = myFormatter.string(from: (self.task.dueDate)!)
             //addDateBtn.setTitle(formattedDate, for: UIControlState.normal)
             dateLbl.text = formattedDate
             addDateBtn.setTitle("Delete", for: UIControlState.normal)
@@ -97,13 +93,20 @@ class AddTaskViewController: UIViewController {
     
     func uploadTask(){
         var ref: FIRDatabaseReference!
-        
         ref = FIRDatabase.database().reference(withPath: "tasks")
-
-        let randomNum:UInt32 = arc4random_uniform(100)
-        ref.child("\(randomNum)/title").setValue(self.task._name)
-        ref.child("\(randomNum)/taskType").setValue(self.task._type.rawValue)
         
+        let time = String(Int(Date().timeIntervalSince1970))
+        let email = FIRAuth.auth()?.currentUser?.email!
+        let emailId = email!.replacingOccurrences(of: "@", with: "(-at-)").replacingOccurrences(of: ".", with: "(-dot-)")
+        let taskId = "\(emailId)-\(time)"
+
+        ref.child("\(taskId)/title").setValue(self.task._name)
+        ref.child("\(taskId)/taskType").setValue(self.task._type.rawValue)
+        ref.child("\(taskId)/creator").setValue(email)
+        
+        if let date = self.task.dueDate {
+            ref.child("\(taskId)/dueDate").setValue(date)
+        }
     }
 
 }
