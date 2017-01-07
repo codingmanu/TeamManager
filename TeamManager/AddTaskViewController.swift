@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class AddTaskViewController: UIViewController {
     
@@ -18,7 +19,7 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var taskTextTF: UITextField!
     
     let taskSubViewsLauncher = TaskSubViewsLauncher()
-    var task: Task = Task(name: "", type: taskType.userTask)
+    var task: Task = Task(id: "", name: "", type: taskType.userTask)
     
     @IBAction func addDateBtnTapped(_ sender: Any) {
         hideKeyboard()
@@ -90,9 +91,19 @@ class AddTaskViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "taskAdded" {
-            if let dest = segue.destination as? TaskListViewController {
-                dest.tasks.append(task)
-            }
+            uploadTask()
         }
     }
+    
+    func uploadTask(){
+        var ref: FIRDatabaseReference!
+        
+        ref = FIRDatabase.database().reference(withPath: "tasks")
+
+        let randomNum:UInt32 = arc4random_uniform(100)
+        ref.child("\(randomNum)/title").setValue(self.task._name)
+        ref.child("\(randomNum)/taskType").setValue(self.task._type.rawValue)
+        
+    }
+
 }

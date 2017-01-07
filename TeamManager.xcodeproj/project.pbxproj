@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		800786381E1B1DEE00800EBC /* TaskSubViewsLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800786371E1B1DEE00800EBC /* TaskSubViewsLauncher.swift */; };
-		8016EA501E104BBC008E9A34 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8016EA4F1E104BBC008E9A34 /* GoogleService-Info.plist */; };
 		8031AE081E104B4400214059 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8031AE071E104B4400214059 /* AppDelegate.swift */; };
 		8031AE0D1E104B4400214059 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8031AE0B1E104B4400214059 /* Main.storyboard */; };
 		8031AE0F1E104B4400214059 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8031AE0E1E104B4400214059 /* Assets.xcassets */; };
 		8031AE121E104B4400214059 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8031AE101E104B4400214059 /* LaunchScreen.storyboard */; };
+		805CA0AC1E2179DE00BDA8A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 805CA0AB1E2179DE00BDA8A9 /* GoogleService-Info.plist */; };
 		80C2D2FB1E14348900307B44 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C2D2FA1E14348900307B44 /* AddTaskViewController.swift */; };
 		80EF1BF11E10548000009003 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EF1BF01E10548000009003 /* LoginViewController.swift */; };
 		80F71A1F1E12E5B9007E14EB /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F71A1E1E12E5B9007E14EB /* TaskListViewController.swift */; };
@@ -24,13 +24,13 @@
 /* Begin PBXFileReference section */
 		4155466D80CBB3AA97B9AF35 /* Pods-TeamManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeamManager.release.xcconfig"; path = "Pods/Target Support Files/Pods-TeamManager/Pods-TeamManager.release.xcconfig"; sourceTree = "<group>"; };
 		800786371E1B1DEE00800EBC /* TaskSubViewsLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSubViewsLauncher.swift; sourceTree = "<group>"; };
-		8016EA4F1E104BBC008E9A34 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8031AE041E104B4400214059 /* TeamManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeamManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8031AE071E104B4400214059 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8031AE0C1E104B4400214059 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8031AE0E1E104B4400214059 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8031AE111E104B4400214059 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8031AE131E104B4400214059 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		805CA0AB1E2179DE00BDA8A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		80C2D2FA1E14348900307B44 /* AddTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		80EF1BF01E10548000009003 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		80F71A1E1E12E5B9007E14EB /* TaskListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 				8031AE0E1E104B4400214059 /* Assets.xcassets */,
 				8031AE101E104B4400214059 /* LaunchScreen.storyboard */,
 				8031AE131E104B4400214059 /* Info.plist */,
-				8016EA4F1E104BBC008E9A34 /* GoogleService-Info.plist */,
+				805CA0AB1E2179DE00BDA8A9 /* GoogleService-Info.plist */,
 			);
 			path = TeamManager;
 			sourceTree = "<group>";
@@ -186,7 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8031AE121E104B4400214059 /* LaunchScreen.storyboard in Resources */,
-				8016EA501E104BBC008E9A34 /* GoogleService-Info.plist in Resources */,
+				805CA0AC1E2179DE00BDA8A9 /* GoogleService-Info.plist in Resources */,
 				8031AE0F1E104B4400214059 /* Assets.xcassets in Resources */,
 				8031AE0D1E104B4400214059 /* Main.storyboard in Resources */,
 			);

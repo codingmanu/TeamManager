@@ -58,7 +58,6 @@
                                                 </state>
                                                 <connections>
                                                     <action selector="loginBtnTapped:" destination="xGJ-D8-USx" eventType="touchUpInside" id="Mmd-hW-DPV"/>
-                                                    <segue destination="Njk-y4-gHP" kind="show" identifier="loggedIn" id="U78-rz-5Nn"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eaq-8n-R04">
@@ -122,6 +121,7 @@
                         <outlet property="passwordTF" destination="fVQ-zo-mNZ" id="0Jc-lZ-Rud"/>
                         <outlet property="signUpBtn" destination="eaq-8n-R04" id="BiX-p5-X5J"/>
                         <outlet property="view" destination="fZE-mA-d1h" id="xEj-CK-js9"/>
+                        <segue destination="Njk-y4-gHP" kind="show" identifier="loggedIn" id="UEi-58-wni"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OC8-wM-l2w" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -418,6 +418,6 @@
         <image name="userTask" width="12" height="12"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="F8n-Z6-ib5"/>
+        <segue reference="UEi-58-wni"/>
     </inferredMetricsTieBreakers>
 </document>
