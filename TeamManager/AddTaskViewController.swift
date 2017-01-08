@@ -68,21 +68,20 @@ class AddTaskViewController: UIViewController {
     }
     
     func updateUI(){
-        self.task.dueDate = taskSubViewsLauncher.date
+        
+        let dueDate = taskSubViewsLauncher.date
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "yyyy/MM/dd"
         
-        if self.task.dueDate != nil{
-            myFormatter.date(from: (self.task.dueDate!.description))
+        if dueDate != nil{
+            myFormatter.date(from: (dueDate!.description))
             
-            let formattedDate = myFormatter.string(from: (self.task.dueDate)!)
-            //addDateBtn.setTitle(formattedDate, for: UIControlState.normal)
+            let formattedDate = myFormatter.string(from: (dueDate)!)
             dateLbl.text = formattedDate
+            self.task.dueDate = formattedDate
             addDateBtn.setTitle("Delete", for: UIControlState.normal)
             
         }
-        //print(self.task!.createdOn!)
-        //print(myFormatter.string(from: (self.task?.createdOn)!))
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -103,6 +102,8 @@ class AddTaskViewController: UIViewController {
         ref.child("\(taskId)/title").setValue(self.task._name)
         ref.child("\(taskId)/taskType").setValue(self.task._type.rawValue)
         ref.child("\(taskId)/creator").setValue(email)
+        
+        ref.child("\(taskId)/createdOn").setValue(self.task.createdOn)
         
         if let date = self.task.dueDate {
             ref.child("\(taskId)/dueDate").setValue(date)

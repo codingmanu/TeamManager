@@ -63,6 +63,10 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
         alert.addAction(UIAlertAction(title: "Delete task", style: UIAlertActionStyle.destructive, handler: { action in
             self.tasks.removeValue(forKey: self.taskArray[indexPath.row]._taskId)
             self.deleteTask(id: self.taskArray[indexPath.row]._taskId)
+            if self.tasks.isEmpty {
+                self.taskArray.removeAll()
+                self.collection.reloadData()
+            }
         }))
         
         // show the alert
@@ -71,11 +75,8 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func deleteTask(id: String){
         var ref: FIRDatabaseReference!
-        
-        
         ref = FIRDatabase.database().reference(withPath: "tasks/\(id)")
         ref.removeValue()
-        
     }
     
     func downloadInfo(){
@@ -107,7 +108,9 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
                     
                 }
                 
-                self.initTaskCollection(task: task)
+                if task._taskId != "" {
+                    self.initTaskCollection(task: task)
+                }
             }
         })
         

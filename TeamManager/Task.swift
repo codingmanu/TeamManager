@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class Task {
     
@@ -15,8 +14,8 @@ class Task {
     var _name: String!
     var _type: taskType
     var createdBy: String
-    var createdOn: Date
-    var dueDate: Date?
+    var createdOn = ""
+    var dueDate: String?
     var completed = false
     
     init(id: String, name: String, type: taskType, creator:String){
@@ -24,8 +23,21 @@ class Task {
         self._name = name
         self._type = type
         self.createdBy = creator
-        createdOn = Date.init()
+        self.createdOn = self.created()
     }
+    
+    func created() -> String{
+        
+        let date = Date()
+        let myFormatter = DateFormatter()
+        myFormatter.dateFormat = "yyyy/MM/dd"
+        myFormatter.date(from: (date.description))
+        
+        let formattedDate = myFormatter.string(from: (date))
+        return formattedDate
+    }
+    
+    
     
 }
 

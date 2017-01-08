@@ -411,13 +411,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AGa-ve-x34" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="479" y="-263"/>
+            <point key="canvasLocation" x="398" y="-379"/>
         </scene>
     </scenes>
     <resources>
         <image name="userTask" width="12" height="12"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="UEi-58-wni"/>
+        <segue reference="F8n-Z6-ib5"/>
     </inferredMetricsTieBreakers>
 </document>
