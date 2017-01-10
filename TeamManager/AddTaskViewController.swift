@@ -94,20 +94,31 @@ class AddTaskViewController: UIViewController {
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference(withPath: "tasks")
         
-        let time = String(Int(Date().timeIntervalSince1970))
-        let email = FIRAuth.auth()?.currentUser?.email!
-        let emailId = email!.replacingOccurrences(of: "@", with: "(-at-)").replacingOccurrences(of: ".", with: "(-dot-)")
-        let taskId = "\(emailId)-\(time)"
-
+        let taskId = ref.childByAutoId().key
+        let user = FIRAuth.auth()?.currentUser?.uid
+        
         ref.child("\(taskId)/title").setValue(self.task._name)
         ref.child("\(taskId)/taskType").setValue(self.task._type.rawValue)
-        ref.child("\(taskId)/creator").setValue(email)
+        ref.child("\(taskId)/creator").setValue(user)
         
         ref.child("\(taskId)/createdOn").setValue(self.task.createdOn)
+        
+        ref.child("\(taskId)/completed").setValue(self.task.completed.description)
         
         if let date = self.task.dueDate {
             ref.child("\(taskId)/dueDate").setValue(date)
         }
+        addTaskToUser(taskId: taskId.description, user: user)
     }
-
+    
+    func addTaskToUser(taskId: String!, user:String!){
+        var ref: FIRDatabaseReference!
+        ref = FIRDatabase.database().reference(withPath: "users")
+        
+        ref.child("\(user!)/tasks").childByAutoId().setValue("\(taskId!)")
+        
+    }
+    
+    
+    
 }

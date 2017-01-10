@@ -148,9 +148,9 @@
                                 <color key="shadowColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hc8-3s-tv7">
-                                <rect key="frame" x="20" y="88.5" width="335" height="558.5"/>
+                                <rect key="frame" x="20" y="89" width="335" height="508"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Kpf-dg-YSD">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Kpf-dg-YSD">
                                     <size key="itemSize" width="335" height="81"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -204,13 +204,30 @@
                                     <segue destination="vzA-Au-jbM" kind="show" id="gGt-te-GPq"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPs-02-ptb">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="S4z-y9-uWt"/>
+                                </constraints>
+                                <state key="normal" title="Show completed tasks">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="showCompletedBtnTapped:" destination="Njk-y4-gHP" eventType="touchUpInside" id="Nkh-gC-ROr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.2666666667" green="0.59215686270000001" blue="0.86274509799999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="nfk-mb-nKf" firstAttribute="top" secondItem="0Za-X2-dgC" secondAttribute="bottom" constant="20" id="6Lv-mX-p7d"/>
+                            <constraint firstItem="Fhv-s4-tii" firstAttribute="top" secondItem="cPs-02-ptb" secondAttribute="bottom" id="9GJ-6h-Mha"/>
+                            <constraint firstAttribute="trailing" secondItem="cPs-02-ptb" secondAttribute="trailing" id="Eqq-4q-lxg"/>
                             <constraint firstItem="nfk-mb-nKf" firstAttribute="leading" secondItem="xa8-dj-2Rn" secondAttribute="leadingMargin" constant="20" id="GQ6-nC-2Sx"/>
+                            <constraint firstItem="cPs-02-ptb" firstAttribute="centerX" secondItem="xa8-dj-2Rn" secondAttribute="centerX" id="Pfu-ab-eCf"/>
                             <constraint firstAttribute="trailing" secondItem="Hc8-3s-tv7" secondAttribute="trailing" constant="20" id="aRt-Do-g1v"/>
-                            <constraint firstItem="Fhv-s4-tii" firstAttribute="top" secondItem="Hc8-3s-tv7" secondAttribute="bottom" constant="20" id="nc6-YS-02U"/>
+                            <constraint firstItem="cPs-02-ptb" firstAttribute="leading" secondItem="xa8-dj-2Rn" secondAttribute="leading" id="boU-TL-vJ4"/>
+                            <constraint firstItem="cPs-02-ptb" firstAttribute="top" secondItem="Hc8-3s-tv7" secondAttribute="bottom" constant="20" id="fXA-64-w1z"/>
                             <constraint firstItem="Hc8-3s-tv7" firstAttribute="leading" secondItem="xa8-dj-2Rn" secondAttribute="leading" constant="20" id="twe-7i-nfF"/>
                             <constraint firstItem="Hc8-3s-tv7" firstAttribute="centerX" secondItem="xa8-dj-2Rn" secondAttribute="centerX" id="uTk-uH-g2H"/>
                             <constraint firstAttribute="trailingMargin" secondItem="nfk-mb-nKf" secondAttribute="trailing" constant="20" id="xiz-Qn-5N1"/>
@@ -220,6 +237,7 @@
                     </view>
                     <connections>
                         <outlet property="collection" destination="Hc8-3s-tv7" id="Mri-UD-c0h"/>
+                        <outlet property="showCompletedBtn" destination="cPs-02-ptb" id="BZf-yG-g1g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dqT-oR-CKL" userLabel="First Responder" sceneMemberID="firstResponder"/>
