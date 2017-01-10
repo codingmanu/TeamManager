@@ -17,6 +17,7 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
     var user: FIRUser! = nil
     var tasks = Dictionary<String, Task>()
     var taskArray = [Task]()
+    var userTaskList = [String]()
     var showCompleted = false
     
     var ref: FIRDatabaseReference!
@@ -28,13 +29,11 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
         collection.delegate = self
         collection.dataSource = self
         
-        downloadInfo()
-        
         getCurrentUserTasks()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        downloadInfo()
+        getCurrentUserTasks()
         collection.reloadData()
     }
     
@@ -76,7 +75,7 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
             }))
         }
         // add the actions (buttons)
-       
+        
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
         
         alert.addAction(UIAlertAction(title: "Delete task", style: UIAlertActionStyle.destructive, handler: { action in
@@ -111,74 +110,74 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     func changeCompletion(task:Task){
-
+        
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference(withPath: "tasks")
-
+        
         ref.child("\(task._taskId!)/completed").setValue(task.completed.description)
         
     }
     
-    func getCurrentUserTasks() -> [String]{
+    func getCurrentUserTasks(){
         let user = FIRAuth.auth()?.currentUser?.uid
-        var tasks = [String]()
+        
         ref = FIRDatabase.database().reference(withPath: "users/\(user!)/tasks")
         
-        ref.observe(.value, with: { snapshot in
+        ref.observeSingleEvent(of: .value, with: { snapshot in
+            self.userTaskList.removeAll()
             for child in snapshot.children{
                 if let childTask = child as? FIRDataSnapshot{
                     let taskId = childTask.value as! String
-                    tasks.append(taskId)
+                    self.userTaskList.append(taskId)
                 }
             }
+            self.downloadInfo()
         })
-        return tasks
     }
     
     func downloadInfo(){
         
-        ref = FIRDatabase.database().reference(withPath: "tasks")
-        
-        ref.observe(.value, with: { snapshot in
-            
-            self.taskArray.removeAll()
-            self.tasks.removeAll()
-            self.collection.reloadData()
-            
-            for child in snapshot.children {
-                let task = Task.init(id: "", name: "", type: .userTask, creator: "")
+        let user = FIRAuth.auth()?.currentUser?.uid
+        if userTaskList.count > 0{
+            let ref = FIRDatabase.database().reference().child("tasks").queryOrdered(byChild: "creator").queryEqual(toValue: user)
+            ref.observe(.value, with:{ (snapshot: FIRDataSnapshot) in
+                self.taskArray.removeAll()
+                self.tasks.removeAll()
+                self.collection.reloadData()
                 
-                if let childTask = child as? FIRDataSnapshot{
-                    task._taskId = childTask.key
+                for child in snapshot.children {
+                    let task = Task.init(id: "", name: "", type: .userTask, creator: "")
                     
-                    if let title = childTask.childSnapshot(forPath: "title").value as? String{
-                        task._name = title
-                    }
-                    if let type = childTask.childSnapshot(forPath: "taskType").value as? String{
-                        if type == "userTask"{
-                            task._type = .userTask
-                        }else{
-                            task._type = .teamTask
+                    if let childTask = child as? FIRDataSnapshot{
+                        task._taskId = childTask.key
+                        
+                        if let title = childTask.childSnapshot(forPath: "title").value as? String{
+                            task._name = title
                         }
-                    }
-                    
-                    if let creator = childTask.childSnapshot(forPath: "creator").value as? String{
-                        task.createdBy = creator
-                    }
-                    
-                    if let completed = childTask.childSnapshot(forPath: "completed").value as? String{
-                        if completed == "true"{
-                            task.completed = true
+                        if let type = childTask.childSnapshot(forPath: "taskType").value as? String{
+                            if type == "userTask"{
+                                task._type = .userTask
+                            }else{
+                                task._type = .teamTask
+                            }
                         }
+                        
+                        if let creator = childTask.childSnapshot(forPath: "creator").value as? String{
+                            task.createdBy = creator
+                        }
+                        
+                        if let completed = childTask.childSnapshot(forPath: "completed").value as? String{
+                            if completed == "true"{
+                                task.completed = true
+                            }
+                        }
+                        
                     }
                     
+                    self.initTaskCollection(task: task)
                 }
-                
-                self.initTaskCollection(task: task)
-            }
-        })
-        
-        
+            })
+        }
     }
     
     func initTaskCollection(task: Task) {
@@ -194,5 +193,4 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         self.collection.reloadData()
     }
-    
 }
