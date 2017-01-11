@@ -115,7 +115,7 @@ class AddTaskViewController: UIViewController {
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference(withPath: "users")
         
-        ref.child("\(user!)/tasks").childByAutoId().setValue("\(taskId!)")
+        ref.child("\(user!)/tasks").child("\(taskId!)").setValue("self")
         
     }
     

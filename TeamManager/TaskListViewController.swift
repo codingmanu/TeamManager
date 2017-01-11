@@ -103,12 +103,18 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
+    
     func deleteTask(id: String){
+        let user = FIRAuth.auth()?.currentUser?.uid
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference(withPath: "tasks/\(id)")
         ref.removeValue()
+        
+        ref = FIRDatabase.database().reference(withPath: "users/\(user!)/tasks/\(id)")
+        ref.removeValue()
     }
     
+    //This updates the tasks' completion
     func changeCompletion(task:Task){
         
         var ref: FIRDatabaseReference!
@@ -118,6 +124,7 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
         
     }
     
+    //This function queries the tasks from the current user object
     func getCurrentUserTasks(){
         let user = FIRAuth.auth()?.currentUser?.uid
         
@@ -127,15 +134,17 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
             self.userTaskList.removeAll()
             for child in snapshot.children{
                 if let childTask = child as? FIRDataSnapshot{
-                    let taskId = childTask.value as! String
-                    self.userTaskList.append(taskId)
+                    if let taskId = childTask.value as? String{
+                        self.userTaskList.append(taskId)
+                    }
                 }
             }
-            self.downloadInfo()
+            self.downloadTasksInfo()
         })
     }
     
-    func downloadInfo(){
+    //This function downloads the task info from the task list saved by getCurrentUserTasks()
+    func downloadTasksInfo(){
         
         let user = FIRAuth.auth()?.currentUser?.uid
         if userTaskList.count > 0{
@@ -180,6 +189,8 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
+    
+    //This function converts the tasks Dictionary into an array for the collection view to pull data from.
     func initTaskCollection(task: Task) {
         
         self.taskArray.removeAll()

@@ -272,6 +272,9 @@
                                                                 <rect key="frame" x="0.0" y="7.5" width="48" height="30"/>
                                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <state key="normal" title="Cancel"/>
+                                                                <connections>
+                                                                    <segue destination="Njk-y4-gHP" kind="show" id="j8H-hu-Iup"/>
+                                                                </connections>
                                                             </button>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Task" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fkj-Ht-Vjt">
                                                                 <rect key="frame" x="83" y="0.0" width="145.5" height="45"/>

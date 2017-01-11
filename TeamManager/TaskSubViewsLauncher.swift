@@ -101,6 +101,7 @@ class DatePicker: UIView{
         self.addSubview(label)
         
         datePicker.center = CGPoint(x: 200, y: 180)
+        datePicker.datePickerMode = UIDatePickerMode.date
         self.addSubview(datePicker)
     }
     
