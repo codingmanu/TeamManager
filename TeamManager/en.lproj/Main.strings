@@ -1,0 +1,72 @@
+
+/* Class = "UISegmentedControl"; 2AO-Cu-LA7.segmentTitles[0] = "User task"; ObjectID = "2AO-Cu-LA7"; */
+"2AO-Cu-LA7.segmentTitles[0]" = "User task";
+
+/* Class = "UISegmentedControl"; 2AO-Cu-LA7.segmentTitles[1] = "Team task"; ObjectID = "2AO-Cu-LA7"; */
+"2AO-Cu-LA7.segmentTitles[1]" = "Team task";
+
+/* Class = "UILabel"; text = " "; ObjectID = "2i6-ig-eNj"; */
+"2i6-ig-eNj.text" = " ";
+
+/* Class = "UILabel"; text = "User Task"; ObjectID = "AZ6-A3-UvG"; */
+"AZ6-A3-UvG.text" = "User Task";
+
+/* Class = "UILabel"; text = "Team Manager"; ObjectID = "BD8-Qw-WCe"; */
+"BD8-Qw-WCe.text" = "Team Manager";
+
+/* Class = "UILabel"; text = "Due date:   "; ObjectID = "CdR-Tg-Fff"; */
+"CdR-Tg-Fff.text" = "Due date:   ";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "EfS-Pb-fP9"; */
+"EfS-Pb-fP9.normalTitle" = "Cancel";
+
+/* Class = "UILabel"; text = "Add Task"; ObjectID = "Fkj-Ht-Vjt"; */
+"Fkj-Ht-Vjt.text" = "Add Task";
+
+/* Class = "UILabel"; text = " "; ObjectID = "NpX-TW-1fP"; */
+"NpX-TW-1fP.text" = " ";
+
+/* Class = "UIButton"; normalTitle = "Add"; ObjectID = "RGX-FL-aFZ"; */
+"RGX-FL-aFZ.normalTitle" = "Add";
+
+/* Class = "UILabel"; text = "User:"; ObjectID = "Tnu-IM-lUU"; */
+"Tnu-IM-lUU.text" = "User:";
+
+/* Class = "UILabel"; text = "User Task"; ObjectID = "YKf-ql-dR1"; */
+"YKf-ql-dR1.text" = "User Task";
+
+/* Class = "UIButton"; normalTitle = "Show completed tasks"; ObjectID = "cPs-02-ptb"; */
+"cPs-02-ptb.normalTitle" = "Show completed tasks";
+
+/* Class = "UIButton"; normalTitle = "Sign Up"; ObjectID = "eaq-8n-R04"; */
+"eaq-8n-R04.normalTitle" = "Sign Up";
+
+/* Class = "UITextField"; placeholder = "password"; ObjectID = "fVQ-zo-mNZ"; */
+"fVQ-zo-mNZ.placeholder" = "password";
+
+/* Class = "UITextField"; text = "123456"; ObjectID = "fVQ-zo-mNZ"; */
+"fVQ-zo-mNZ.text" = "123456";
+
+/* Class = "UITextField"; placeholder = "email"; ObjectID = "gRk-kL-b9I"; */
+"gRk-kL-b9I.placeholder" = "email";
+
+/* Class = "UITextField"; text = "msgomezm@gmail.com"; ObjectID = "gRk-kL-b9I"; */
+"gRk-kL-b9I.text" = "msgomezm@gmail.com";
+
+/* Class = "UIButton"; normalTitle = "Add Date"; ObjectID = "lo8-Z8-XR1"; */
+"lo8-Z8-XR1.normalTitle" = "Add Date";
+
+/* Class = "UIButton"; normalTitle = "Log In"; ObjectID = "nOh-Ku-PRh"; */
+"nOh-Ku-PRh.normalTitle" = "Log In";
+
+/* Class = "UILabel"; text = "Today's Tasks"; ObjectID = "nfk-mb-nKf"; */
+"nfk-mb-nKf.text" = "Today's Tasks";
+
+/* Class = "UIButton"; normalTitle = "Assign to user"; ObjectID = "vj2-rL-JCz"; */
+"vj2-rL-JCz.normalTitle" = "Assign to user";
+
+/* Class = "UIViewController"; title = "LoginViewController"; ObjectID = "xGJ-D8-USx"; */
+"xGJ-D8-USx.title" = "LoginViewController";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "xwh-Om-rc1"; */
+"xwh-Om-rc1.normalTitle" = "Done";

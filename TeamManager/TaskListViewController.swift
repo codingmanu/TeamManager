@@ -42,13 +42,12 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let task = taskArray[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TaskCell", for: indexPath) as? TaskCell{
-            let task = taskArray[indexPath.row]
             cell.configureCell(task)
             return cell
-        }else{
-            return UICollectionViewCell()
         }
+        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -60,6 +59,7 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         // create the alert
         let alert = UIAlertController(title: "Notice", message: "What?", preferredStyle: UIAlertControllerStyle.alert)
         
@@ -179,6 +179,14 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
                             if completed == "true"{
                                 task.completed = true
                             }
+                        }
+                        
+                        if let dueDate = childTask.childSnapshot(forPath: "dueDate").value as? String{
+                            task.dueDate = dueDate
+                        }
+                        
+                        if let assignedTo = childTask.childSnapshot(forPath: "assignedTo").value as? String{
+                            task.assignedTo = assignedTo
                         }
                         
                     }

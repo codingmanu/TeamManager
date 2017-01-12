@@ -30,6 +30,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         //}
         /////////////////////////////////////////////////////////////////
         
+        let _ = User()
+        
         loginView.layer.cornerRadius = 5.0
         loginBtn.layer.cornerRadius = 3.0
         signUpBtn.layer.cornerRadius = 3.0
@@ -98,7 +100,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             case .errorCodeEmailAlreadyInUse:
                 self.createAlert(message: "User already exists")
             default:
-                self.createAlert(message: "Create User Error: \(error)")
+                self.createAlert(message: "\(error)")
             }
         }
     }

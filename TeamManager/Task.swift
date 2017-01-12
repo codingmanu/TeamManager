@@ -16,7 +16,10 @@ class Task {
     var createdBy: String
     var createdOn = ""
     var dueDate: String?
+    var assignedTo: String?
     var completed = false
+    var taskSelected = false
+    
     
     init(id: String, name: String, type: taskType, creator:String){
         self._taskId = id
