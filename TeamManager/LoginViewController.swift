@@ -20,6 +20,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         /////////////////////////////////////////////////////////////////
         // Sign out every time the app is launched
         /////////////////////////////////////////////////////////////////
