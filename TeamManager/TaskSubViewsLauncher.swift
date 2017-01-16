@@ -115,7 +115,7 @@ class DatePicker: UIView{
 class UserPicker: UIView, UIPickerViewDataSource,UIPickerViewDelegate {
     
     var userIds = [String]()
-    var users = [User]()
+    var users = [String]()
     
     var label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
     var userPickerObj = UIPickerView(frame: CGRect(x: 10, y: 60, width: 300, height: 300))
@@ -129,8 +129,7 @@ class UserPicker: UIView, UIPickerViewDataSource,UIPickerViewDelegate {
         userPickerObj.delegate = self
         userPickerObj.dataSource = self
         
-        users.append(User())
-        downloadTeamUsers()
+        downloadUserTeam()
         
         label.text = "Select User:"
         label.center = CGPoint(x: 120, y: 30)
@@ -142,12 +141,12 @@ class UserPicker: UIView, UIPickerViewDataSource,UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return users[row].userID!
+        return users[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         //myLabel.text = pickerData[row]
-        print("User: \(users[row].userID) Email: \(users[row].email)")
+        //print("User: \(users[row].userID) Email: \(users[row].email)")
         
     }
     
@@ -160,10 +159,23 @@ class UserPicker: UIView, UIPickerViewDataSource,UIPickerViewDelegate {
         return 1
     }
     
-    func downloadTeamUsers(){
-        //let user = FIRAuth.auth()?.currentUser?.uid
+    func downloadUserTeam(){
+        let user = FIRAuth.auth()?.currentUser?.uid
+        var teamId = ""
         
-        let ref = FIRDatabase.database().reference(withPath: "teams/-KaFut1RjfTvylH2-i7t/members")
+        let ref = FIRDatabase.database().reference(withPath: "users/\(user!)/team")
+        
+        ref.observeSingleEvent(of: .value, with: { snapshot in
+            if let team = snapshot.value as? String{
+                teamId = team
+            }
+            self.downloadTeamUsers(team: teamId)
+        })
+    }
+    
+    func downloadTeamUsers(team:String){
+        
+        let ref = FIRDatabase.database().reference(withPath: "teams/\(team)/members")
         
         ref.observeSingleEvent(of: .value, with: { snapshot in
             for child in snapshot.children{
@@ -178,7 +190,15 @@ class UserPicker: UIView, UIPickerViewDataSource,UIPickerViewDelegate {
     }
     
     func downloadUsersInfo(){
-    
+        self.users.removeAll()
+        for user in userIds{
+            let ref = FIRDatabase.database().reference(withPath: "users/\(user)/fullName")
+            ref.observeSingleEvent(of: .value, with: { snapshot in
+                if let name = snapshot.value as? String{
+                    self.users.append(name)
+                }
+            })
+        }
     }
-
+    
 }
