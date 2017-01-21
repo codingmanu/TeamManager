@@ -32,13 +32,21 @@ class AddTaskViewController: UIViewController {
             task.dueDate = nil
             dateLbl.text = ""
             addDateBtn.setTitle("Add Date", for: UIControlState.normal)
-            
         }
     }
     
     @IBAction func assignToUserBtnTapped(_ sender: Any) {
         hideKeyboard()
-        taskSubViewsLauncher.selectUser()
+        if assignToUserBtn.titleLabel?.text != "Delete"{
+            taskSubViewsLauncher.selectUser()
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: Notification.Name("taskUserSelected"), object: taskSubViewsLauncher.selectedUser)
+        }else{
+            //We remove the user from the task object and the label
+            task.assignedTo = nil
+            userLbl.text = ""
+            assignToUserBtn.setTitle("Assign to User", for: UIControlState.normal)
+        }
     }
     
     @IBAction func doneBtnTapped(_ sender: Any) {
@@ -70,6 +78,7 @@ class AddTaskViewController: UIViewController {
     func updateUI(){
         
         let dueDate = taskSubViewsLauncher.date
+        let assignedUser = taskSubViewsLauncher.selectedUser
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "yyyy/MM/dd"
         
@@ -81,6 +90,11 @@ class AddTaskViewController: UIViewController {
             self.task.dueDate = formattedDate
             addDateBtn.setTitle("Delete", for: UIControlState.normal)
             
+        }
+        if assignedUser != nil{
+            userLbl.text = assignedUser!.1
+            self.task.assignedTo = assignedUser!.0
+            assignToUserBtn.setTitle("Delete", for: UIControlState.normal)
         }
     }
     
@@ -108,15 +122,18 @@ class AddTaskViewController: UIViewController {
         if let date = self.task.dueDate {
             ref.child("\(taskId)/dueDate").setValue(date)
         }
-        addTaskToUser(taskId: taskId.description, user: user)
+        if task.assignedTo != nil {
+            ref.child("\(taskId)/assignedTo").setValue(self.task.assignedTo)
+            addTaskToUser(taskId: taskId.description, user: self.task.assignedTo, type:"assigned")
+        }
+        addTaskToUser(taskId: taskId.description, user: user, type:"self")
     }
     
-    func addTaskToUser(taskId: String!, user:String!){
+    func addTaskToUser(taskId: String!, user:String!, type:String!){
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference(withPath: "users")
         
-        ref.child("\(user!)/tasks").child("\(taskId!)").setValue("self")
-        
+        ref.child("\(user!)/tasks").child("\(taskId!)").setValue(type)
     }
     
     

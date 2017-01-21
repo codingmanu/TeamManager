@@ -134,9 +134,7 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
             self.userTaskList.removeAll()
             for child in snapshot.children{
                 if let childTask = child as? FIRDataSnapshot{
-                    if let taskId = childTask.value as? String{
-                        self.userTaskList.append(taskId)
-                    }
+                    self.userTaskList.append(childTask.key)
                 }
             }
             self.downloadTasksInfo()
@@ -146,9 +144,12 @@ class TaskListViewController: UIViewController, UICollectionViewDelegate, UIColl
     //This function downloads the task info from the task list saved by getCurrentUserTasks()
     func downloadTasksInfo(){
         
-        let user = FIRAuth.auth()?.currentUser?.uid
+        
         if userTaskList.count > 0{
+            
+            let user = FIRAuth.auth()?.currentUser?.uid
             let ref = FIRDatabase.database().reference().child("tasks").queryOrdered(byChild: "creator").queryEqual(toValue: user)
+            
             ref.observe(.value, with:{ (snapshot: FIRDataSnapshot) in
                 self.taskArray.removeAll()
                 self.tasks.removeAll()

@@ -15,6 +15,7 @@ class TaskSubViewsLauncher: NSObject {
     let dateView = DatePicker()
     let userView = UserPicker()
     var date: Date? = nil
+    var selectedUser: (String, String)?
     
     var popUpView = UIView()
     
@@ -80,6 +81,15 @@ class TaskSubViewsLauncher: NSObject {
                     }
                 }
             }
+            if self.popUpView.isKind(of: UserPicker.self){
+                if let view = self.popUpView as? UserPicker{
+                    if view.selectedUser != nil {
+                        self.selectedUser = view.selectedUser!
+                        let nc = NotificationCenter.default
+                        nc.post(name: Notification.Name("taskUserSelected"), object: self.selectedUser)
+                    }
+                }
+            }
         }
     }
     
@@ -112,10 +122,13 @@ class DatePicker: UIView{
     
 }
 
-class UserPicker: UIView, UIPickerViewDataSource,UIPickerViewDelegate {
+class UserPicker: UIView, UIPickerViewDataSource,UIPickerViewDelegate{
     
-    var userIds = [String]()
-    var users = [String]()
+    //var userIds = [String]()
+    var teamMembersIds = [String]()
+    var users = Dictionary<String, String>()
+    var usersArray = [(String, String)]()
+    var selectedUser: (String, String)?
     
     var label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
     var userPickerObj = UIPickerView(frame: CGRect(x: 10, y: 60, width: 300, height: 300))
@@ -141,13 +154,14 @@ class UserPicker: UIView, UIPickerViewDataSource,UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return users[row]
+        return usersArray[row].1
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        //myLabel.text = pickerData[row]
-        //print("User: \(users[row].userID) Email: \(users[row].email)")
-        
+        let selectedRow = pickerView.selectedRow(inComponent: component)
+        if self.usersArray[selectedRow].0.characters.count > 0 {
+            selectedUser = (self.usersArray[selectedRow].0,self.usersArray[selectedRow].1)
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -180,8 +194,8 @@ class UserPicker: UIView, UIPickerViewDataSource,UIPickerViewDelegate {
         ref.observeSingleEvent(of: .value, with: { snapshot in
             for child in snapshot.children{
                 if let childMember = child as? FIRDataSnapshot{
-                    if let memberId = childMember.value as? String{
-                        self.userIds.append(memberId)
+                    if let userId = childMember.value as? String{
+                        self.teamMembersIds.append(userId)
                     }
                 }
             }
@@ -191,13 +205,26 @@ class UserPicker: UIView, UIPickerViewDataSource,UIPickerViewDelegate {
     
     func downloadUsersInfo(){
         self.users.removeAll()
-        for user in userIds{
-            let ref = FIRDatabase.database().reference(withPath: "users/\(user)/fullName")
+        for userId in teamMembersIds{
+            let ref = FIRDatabase.database().reference(withPath: "users/\(userId)/fullName")
             ref.observeSingleEvent(of: .value, with: { snapshot in
                 if let name = snapshot.value as? String{
-                    self.users.append(name)
+                    self.users[userId] = name
                 }
+                self.initUsersArray()
             })
+        }
+    }
+    
+    func initUsersArray() {
+        
+        self.usersArray.removeAll()
+        //self.users[userId] = task
+        
+        let usersArray = users.sorted{ $0.key > $1.key }
+        
+        for user in usersArray {
+            self.usersArray.append(user.key, user.value)
         }
     }
     

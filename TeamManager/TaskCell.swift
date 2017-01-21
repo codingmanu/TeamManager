@@ -69,7 +69,7 @@ class TaskCell: UICollectionViewCell {
         }else{
             cellText.text = task._name
             cellImg.tintColor = UIColor.blue
-            self.backgroundColor = UIColor.green
+            self.backgroundColor = UIColor.white
         }
     }
     
